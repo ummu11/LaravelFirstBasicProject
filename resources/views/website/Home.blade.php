@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
    <!-- owl carousel -->
@@ -17,119 +18,103 @@
    <link rel="stylesheet" href="css/style.css" type="text/css">
     <title>Home</title>
 </head>
-<body>
+<body >
   {{-- nav bar --}}
   <div class="pos-f-t">
     <div class="collapse" id="navbarToggleExternalContent">
       <div class="bg-dark p-4">
        
-{{-- modal login trigger --}}
-        <button type="button" class="about-btn" data-toggle="modal" data-target="#exampleModalCenter">
+        <button type="button" class="about-btn" data-toggle="modal" data-target="#Loginmodel">
           Login
         </button>
         <button type="button" class="about-btn" data-toggle="modal" data-target="#exampleModalLong">
           Register
         </button>
-       <form action="{{url('photos/')}}" method="POST">
-        @csrf
-        <button type="submit" class="about-btn"data-toggle="modal" data-target="#exampleModalScrollable">
-        Gallery</button>
-       </form>
-
-       
-            
-{{-- end of modal login triggar --}}
-        <!-- login  Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Login</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        <form method="post" id="loginform" action="{{url('/loginuser')}}">
-           <div class="modal-body">
-            @csrf
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input type="email" class="form-control"  name="email" id="email" aria-describedby="emailHelp">
-                  <span class="print-error-msg" style="color:red;" id="emailspan"></span>
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Password</label>
-                  <input type="password" name="password" class="form-control"  id="password">
-                  <span class="print-error-msg" id="passwordspan" style="color:red;"></span>
-                </div>
-               
-                <input type="submit" class="btn btn-primary" id="login"value="submit">
-              
-              </div>
-         </form>
-
+        <a href="{{url('photos/')}}" class="about-btn"> Gallery</a>    
       </div>
     </div>
   </div>
-      {{-- end login  model --}}
-
-        
-      </div>
-    </div>
-
     <nav class="navbar navbar-dark bg-dark">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button>
+      </button> --}}
+      <span><a href="javascript:void(0)" data-toggle="modal" data-target="#Loginmodel"><h3 class="navbar-brand"><i class="fa fa-user-circle" aria-hidden="true">Login</i></h3></a>
+      <a href="javascript:void(0)" data-toggle="modal" data-target="#Registermodal"><h3 class="navbar-brand"><i class="fa fa-sign-in" aria-hidden="true">Register</i></h3></a>
+      <a href="{{url('/photos')}}"><h3 class="navbar-brand"><i class="fa fa-file-image-o" aria-hidden="true">Gallery</i></h3></a>
+      </span>
     </nav>
   </div>
   {{-- end nav bar--}}
-    <div class="main-container carousel-height">
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">            
-          <div class="carousel-inner">
-            <div class="carousel-item active first-slider">
-              <div class="inside-container">
-                <div class="row">
-                  <div class="col-lg-12  ">
-                    <div class="carousel-text">
-                      <span>Hello!<span class="second">Welcome</span>  </span></span>
+          <!-- login  Modal -->
+          <div class="modal fade" id="Loginmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <h5 class="modal-title" id="exampleModalCenterTitle"><i class="fa fa-user-circle" aria-hidden="true">Login</i></h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                   </button>
+                 </div>
+               <form method="post" id="loginform" action="{{url('/loginuser')}}">
+                  <div class="modal-body">
+                   @csrf
+                       <div class="form-group">
+                         <label for="exampleInputEmail1">Email address</label>
+                         <input type="email" class="form-control"  name="email" id="email" aria-describedby="emailHelp">
+                         <span class="print-error-msg" style="color:red;" id="emailspan"></span>
+                       </div>
+                       <div class="form-group">
+                         <label for="exampleInputPassword1">Password</label>
+                         <input type="password" name="password" class="form-control"  id="password">
+                         <span class="print-error-msg" id="passwordspan" style="color:red;"></span>
+                       </div>
+                       
                       
+                       <input type="submit" class="btn btn-primary" id="login"value="submit">
+                       <a href="javascript:void(0)" id="forgetpasslink" data-toggle="modal" data-target="#forgetpass">forgot password?</a>
+                     
+                     </div>
+                </form>
+       
+             </div>
+           </div>
+         </div>
+             {{-- end login  model --}}
+           {{-- Forgot password model --}}
+       
+       <div class="modal fade" id="forgotpassmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+           <div class="modal-content">
+             <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Enter Valid Email Address</h5>
+               <button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+               </button>
+             </div>
+             <form action="{{url('/resetpassword')}}" id="forgotpassform"method="POST" onsubmit="alert('Check Your Mail For Resetting password')">
+             <div class="modal-body">
+               <div class="form-group">
+               @csrf
+                 <input type="email" class="form-control"  name="email" id="forgotemail" aria-describedby="emailHelp" placeholder="Registered Email">
+                 <span class="print-error-msg" style="color:red;" id="forgotemailspan"></span>
+               </div>
+               <button type="submit" class="btn btn-primary" id="forgot">Reset</button>
+             </div>
+           </form>
+           </div>
+         </div>
+       </div>
+       
+           {{-- End Forgotpassword model --}}
 
-                    </div>
-                  </div> 
-                </div>
-              </div>
-            </div>  
-            <div class="carousel-item  first-slider-1">
-              <div class="inside-container">
-                <div class="row">
-                  <div class="col-lg-12 ">
-                    <div class="carousel-text"> 
-                      <span>Hello!<span class="second">Welcome</span>  </span></span>
-                      <p></p>
 
-                    </div>
-                  </div> 
-                </div>
-              </div>
-            </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                  <span ><i class="fas fa-arrow-right  fa-rotate-180 arrow"></i></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                  <span ><i class="fas fa-arrow-right arrow"></i></span>
-                  <span class="sr-only">Next</span>
-                </a>
-          </div>     
-        </div>
-      </div>
+
       {{--  Register model--}}
-      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+      <div class="modal fade" id="Registermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
+              <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-sign-in" aria-hidden="true">Register</i></h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -190,10 +175,11 @@
                     <div class="custom-file">
                       <input type="file" class="custom-file-input" id="file" aria-describedby="inputGroupFileAddon01" name="file">
                       <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                      <span class="print-error-msg" style="color:red;" id="filespan"></span>
+                      
                     </div>
                    
                 </div>
+                <span class="print-error-msg" style="color:red;" id="filespan"></span>
                
     
                 <div class="modal-footer">
@@ -206,14 +192,61 @@
         </form>
     
       </div>
-      {{-- end reg modal --}}
- <!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+      </div>
+       {{-- end reg modal --}}
+
+
+
+           {{-- slider --}}
+    <div class="main-container carousel-height">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">            
+          <div class="carousel-inner">
+            <div class="carousel-item active first-slider">
+              <div class="inside-container">
+                <div class="row">
+                  <div class="col-lg-12  ">
+                    <div class="carousel-text">
+                      <span>Hello!<span class="second">Welcome</span>  </span></span>
+                      
+
+                    </div>
+                  </div> 
+                </div>
+              </div>
+            </div>  
+            <div class="carousel-item  first-slider-1">
+              <div class="inside-container">
+                <div class="row">
+                  <div class="col-lg-12 ">
+                    <div class="carousel-text"> 
+                      <span>Hello!<span class="second">Welcome</span>  </span></span>
+                      <p></p>
+
+                    </div>
+                  </div> 
+                </div>
+              </div>
+            </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                  {{-- <span ><i class="fas fa-arrow-right  fa-rotate-180 arrow"></i></span> --}}
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                  {{-- <span ><i class="fas fa-arrow-right arrow"></i></span> --}}
+                  <span class="sr-only">Next</span>
+                </a>
+          </div>     
+        </div>
+      </div>
+      {{-- end Slider --}}
+
+
+     
+
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.js"></script>
@@ -222,6 +255,47 @@
   <script>
   
   $(document).ready(function() {
+//
+$("#forgotpassmodel").on('hide', function(){
+    location.reload(true);
+  });
+
+//
+    $("#forgetpasslink").click(function () {
+            $("#Loginmodel").modal("hide");
+            $("#forgotpassmodel").modal("show");
+        });
+
+// Reset password validation
+$("#forgot").click(function(e){
+            e.preventDefault();
+
+
+            var _token = $("input[name='_token']").val();
+            var email = $("#forgotemail").val();
+            $("#forgotemailspan").empty();
+            $.ajax({
+                url: "resetpassword",
+                type:'POST',
+                data: {_token:_token, email:email},
+                success: function(data) {
+                    if($.isEmptyObject(data.error)){
+                
+                      $('#forgotpassform').submit();
+                    }else{
+                     
+
+                           $(".print-error-msg").css('display','block');
+                          $("#forgotemailspan").html(data.error.email);
+                         
+                    }
+                }
+            });
+
+
+        }); 
+//
+//login click
         $("#login").click(function(e){
             e.preventDefault();
 

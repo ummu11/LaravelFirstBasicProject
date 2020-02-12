@@ -7,14 +7,28 @@ use Illuminate\Http\Request;
 use App\models\AuthModel;
 use App\models\GalleryModel;
 use App\models\GallerImageModel;
+use Session;
+use Validator;
 class GalleryController extends Controller
 {
     public function upload(Request $request)
     {
-        $request->validate([
-            'file' => 'required|max:1024',
-        ]);
-        
+        if(request()->ajax()){
+            $validator = Validator::make($request->all(), [
+                'file' => 'required',
+                'Category' => 'required',
+            ]);
+    
+    
+            if ($validator->fails()) {
+    
+                
+                return response()->json(['error'=>$validator->errors()]); 
+            }
+            else{
+                return response()->json(['success'=>'true']);
+            }
+        }
         $image=$request->file('file');
         $name = time().time().'.'.$image->getClientOriginalExtension();
         $destinationPath =public_path('Gallery/');
@@ -33,6 +47,7 @@ class GalleryController extends Controller
 
     }
     public function show(){
+
         return view('website.Gallery');
     }
     public function photodata($id){

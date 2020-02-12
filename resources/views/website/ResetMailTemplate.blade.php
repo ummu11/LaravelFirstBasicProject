@@ -1,0 +1,1 @@
+<h1> link to reset password is:{{$data}}</h1>

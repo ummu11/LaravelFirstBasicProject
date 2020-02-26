@@ -12,6 +12,7 @@
     <link href="{{asset('css')}}/gallery.css" rel="stylesheet">
 </head>
 <body>
+
     <nav class="navbar-expand-lg navbar navbar-dark bg-dark">
         <div class="container">
           <a class="navbar-brand" href="javascript:history.go(-2)"><i class="fa fa-home" aria-hidden="true">Home</i></a>

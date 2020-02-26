@@ -4,13 +4,19 @@ namespace App\Http\Controllers\LoginReg;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\models\AuthModel;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\models\FileModel;
+use Spatie\Permission\Traits\HasRoles;
 use App\DataTables;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMail;
+use Illuminate\Contracts\Auth\Access\Authorizable;
 use App\Mail\ResetMail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Auth\AuthManager;
+use DateTime;
 use Validator;
 use Session;
 
@@ -59,11 +65,11 @@ class LoginRegController extends Controller
             
              $fullname=$us->firstname." ".$us->lastname;
             
-                $data=array($fullname,$image);
+                $data=array($fullname,$image,$us->id);
                 
              $request->session()->put("data",$data);
             
-             return view('website.UserProfile');
+             return redirect()->route('profile');
              
         }
         else{
@@ -74,20 +80,32 @@ class LoginRegController extends Controller
 }
 
     public function dataTab(Request $request)
-    {  if($request->ajax()){
+    { 
+
         $data=AuthModel::all();
         return \DataTables::of($data)->addColumn('action', function($data){
-            $button = "<button type='button' id='$data->id' class='btn btn-primary edit'>
+            $userinfo=Session::get('data');
+            $userdata=AuthModel::find($userinfo[2]);
+
+                $res=$userdata->hasRole(['admin']);
+                if($res==1){
+            $button = "<span><button type='button' id='$data->id' class='btn btn-primary edit'>
             Edit
           </button>";
             $button .= "&nbsp;<button type='button' id='$data->id' class='btn btn-primary delete'>
             delete
           </button>";
-            return $button;
+           
+            $button .= "&nbsp;<button type='button' data-toggle='modal' data-target='#Rolemodel ' id='$data->id' class='btn btn-primary assignbtn'>
+            assign
+          </button>";
+          return $button;
+                }
+            
         })
         ->rawColumns(['action'])->make(true);
-    }
-    //return redirect('/log');
+
+   
     }
 
     public function Reg(Request $request)
@@ -112,6 +130,13 @@ class LoginRegController extends Controller
 			return response()->json(['error'=>$validator->errors()]); 
         }
        else{
+        $dob = new DateTime($request->input('dob'));
+       $now=new DateTime();
+       $difference = $now->diff($dob);
+       $age = $difference->y;
+        if($age<18){
+            return response()->json(['error'=>['dob'=>'Enter Valid Age']]);
+        }
         $email=$request->input('email');
         $us = AuthModel::where('email', $email)->first();
         if(!empty($us)){
@@ -121,6 +146,7 @@ class LoginRegController extends Controller
        }
     }
     }
+            
              $file=$request->file('file');
             $name =time().time().'.'.$file->getClientOriginalExtension();  
             $target_path    =   public_path('/userimages/');
@@ -137,10 +163,11 @@ class LoginRegController extends Controller
               $obj1->photo= $name;
              $obj1->phone= $request->input('phone');
              $fullname=$obj->firstname." ".$obj->lastname;
-             $data=array($fullname,$name);
-             $request->session()->put("data",$data);
+
               $obj->save();
              $obj1->save();
+             $data=array($fullname,$name,$obj->id);
+             $request->session()->put("data",$data);
              $data=array(
                  'email'=>$request->input('email'),
                  'password'=>$request->input('password')
@@ -198,8 +225,6 @@ class LoginRegController extends Controller
     }
     public function logout(){
         Session::flush();
-        $da=Session::get('data');
-        print_r($da);
         return redirect('/');
     }
     public function change(Request $request){
@@ -234,6 +259,49 @@ public function test(){
 
     $decrypted = Crypt::decryptString($encrypted);
     echo($decrypted);
+}
+public function profilecheck(){
+    $da=Session::get('data');
+    if(empty($da)){
+        return redirect('/');
+    }
+    else{
+        return view('website.UserProfile');
+    }
+}
+public function assign(Request $request){
+    $assuserinfo=Session::get('data');
+    $assigningroleuser=AuthModel::find($assuserinfo[2]);
+    $res=$assigningroleuser->hasRole('admin');
+    if($res==1){
+    $role=$request->role;
+    $userdata=AuthModel::find($request->id);
+    $res=$userdata->hasRole($role);
+    if($res==1){
+        return response()->json(['success'=>'Already Assigned']);
+    }
+    else{
+        $userdata->assignRole($role);
+        return response()->json(['success'=>'Assigned Successfully']);   
+    }
+}
+else{
+    return response()->json(['success'=>'you do not have permission']);
+}
+    
+
+}
+public function createroleper(){
+
+    $role=Role::find(1);
+    $role->givePermissionTo('edit');
+
+}
+public function Ap(){
+    return response()->json(AuthModel::get(), 200);
+}
+public function senddata(Request $request){
+return response()->json(['success'=>'sucess'], 200);
 }
 
    }
